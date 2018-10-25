@@ -51,7 +51,7 @@ go_library(
     deps = [
         "//prow/deck/jobs:go_default_library",
         "//prow/spyglass/viewers:go_default_library",
-        "//testgrid/util/gcs:go_default_library",
+        "//testgrid/util/objectstorage:go_default_library",
         "//vendor/cloud.google.com/go/storage:go_default_library",
         "//vendor/github.com/sirupsen/logrus:go_default_library",
         "//vendor/google.golang.org/api/iterator:go_default_library",

@@ -46,6 +46,7 @@ filegroup(
         "//testgrid/cmd/updater:all-srcs",
         "//testgrid/images:all-srcs",
         "//testgrid/util/gcs:all-srcs",
+        "//testgrid/util/objectstorage:all-srcs",
     ],
     tags = ["automanaged"],
     visibility = ["//visibility:public"],

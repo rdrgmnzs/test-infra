@@ -33,7 +33,7 @@ import (
 	"k8s.io/test-infra/prow/config"
 	"k8s.io/test-infra/prow/pjutil"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
-	"k8s.io/test-infra/prow/pod-utils/gcs"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 )
 
 type options struct {
@@ -121,7 +121,7 @@ func main() {
 }
 
 func getJobFallbackNumber(bucket string, spec *downwardapi.JobSpec) (bool, error) {
-	url := fmt.Sprintf("%s/%s", strings.TrimSuffix(bucket, "/"), gcs.LatestBuildForSpec(spec, nil)[0])
+	url := fmt.Sprintf("%s/%s", strings.TrimSuffix(bucket, "/"), objectstorage.LatestBuildForSpec(spec, nil)[0])
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -133,7 +133,7 @@ func getJobFallbackNumber(bucket string, spec *downwardapi.JobSpec) (bool, error
 		fmt.Printf("OK: %s\n", spec.Job)
 		return false, nil
 	case http.StatusNotFound:
-		rootURL := fmt.Sprintf("%s/%s", strings.TrimSuffix(bucket, "/"), gcs.RootForSpec(spec))
+		rootURL := fmt.Sprintf("%s/%s", strings.TrimSuffix(bucket, "/"), objectstorage.RootForSpec(spec))
 		resp, err := http.Get(rootURL)
 		if err != nil {
 			return false, err

@@ -30,7 +30,7 @@ import (
 	"google.golang.org/api/iterator"
 
 	"k8s.io/test-infra/prow/spyglass/viewers"
-	"k8s.io/test-infra/testgrid/util/gcs"
+	"k8s.io/test-infra/testgrid/util/objectstorage"
 )
 
 const (
@@ -74,7 +74,7 @@ func newGCSJobSource(src string) (*gcsJobSource, error) {
 	if err != nil {
 		return &gcsJobSource{}, ErrCannotParseSource
 	}
-	gcsPath := &gcs.Path{}
+	gcsPath := &objectstorage.Path{}
 	err = gcsPath.SetURL(gcsURL)
 	if err != nil {
 		return &gcsJobSource{}, ErrCannotParseSource

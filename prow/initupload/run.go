@@ -26,7 +26,7 @@ import (
 
 	"k8s.io/test-infra/prow/pod-utils/clone"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
-	"k8s.io/test-infra/prow/pod-utils/gcs"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 )
 
 func (o Options) Run() error {
@@ -44,8 +44,8 @@ func (o Options) Run() error {
 	if err != nil {
 		return fmt.Errorf("could not marshal starting data: %v", err)
 	}
-	uploadTargets := map[string]gcs.UploadFunc{
-		"started.json": gcs.DataUpload(bytes.NewReader(startedData)),
+	uploadTargets := map[string]objectstorage.UploadFunc{
+		"started.json": objectstorage.DataUpload(bytes.NewReader(startedData)),
 	}
 
 	var failed bool
@@ -66,7 +66,7 @@ func (o Options) Run() error {
 	return nil
 }
 
-func processCloneLog(logfile string, uploadTargets map[string]gcs.UploadFunc) (bool, error) {
+func processCloneLog(logfile string, uploadTargets map[string]objectstorage.UploadFunc) (bool, error) {
 	var cloneRecords []clone.Record
 	data, err := ioutil.ReadFile(logfile)
 	if err != nil {
@@ -84,11 +84,11 @@ func processCloneLog(logfile string, uploadTargets map[string]gcs.UploadFunc) (b
 		cloneLog.WriteString(clone.FormatRecord(record))
 		failed = failed || record.Failed
 	}
-	uploadTargets["clone-log.txt"] = gcs.DataUpload(bytes.NewReader(cloneLog.Bytes()))
-	uploadTargets["clone-records.json"] = gcs.FileUpload(logfile)
+	uploadTargets["clone-log.txt"] = objectstorage.DataUpload(bytes.NewReader(cloneLog.Bytes()))
+	uploadTargets["clone-records.json"] = objectstorage.FileUpload(logfile)
 
 	if failed {
-		uploadTargets["build-log.txt"] = gcs.DataUpload(bytes.NewReader(cloneLog.Bytes()))
+		uploadTargets["build-log.txt"] = objectstorage.DataUpload(bytes.NewReader(cloneLog.Bytes()))
 
 		finished := struct {
 			Timestamp int64  `json:"timestamp"`
@@ -103,7 +103,7 @@ func processCloneLog(logfile string, uploadTargets map[string]gcs.UploadFunc) (b
 		if err != nil {
 			return true, fmt.Errorf("could not marshal finishing data: %v", err)
 		}
-		uploadTargets["finished.json"] = gcs.DataUpload(bytes.NewReader(finishedData))
+		uploadTargets["finished.json"] = objectstorage.DataUpload(bytes.NewReader(finishedData))
 	}
 	return failed, nil
 }

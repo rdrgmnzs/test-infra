@@ -29,15 +29,15 @@ import (
 	"k8s.io/test-infra/prow/kube"
 
 	"k8s.io/test-infra/prow/artifact-uploader"
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/logrusutil"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pod-utils/options"
 )
 
 // newOptions returns an empty Options with no nil fields
 func newOptions() *Options {
 	return &Options{
-		Options: gcsupload.NewOptions(),
+		Options: osupload.NewOptions(),
 	}
 }
 
@@ -50,7 +50,7 @@ type Options struct {
 	// ProwJob objects
 	ProwJobNamespace string `json:"'prow_job_namespace'"`
 
-	*gcsupload.Options
+	*osupload.Options
 
 	clusterConfig *rest.Config
 }

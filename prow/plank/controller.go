@@ -28,9 +28,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"k8s.io/api/core/v1"
 	"k8s.io/test-infra/prow/config"
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/github"
 	"k8s.io/test-infra/prow/kube"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pjutil"
 	"k8s.io/test-infra/prow/pod-utils/decorate"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
@@ -547,7 +547,7 @@ func jobURL(plank config.Plank, pj kube.ProwJob, log *logrus.Entry) string {
 	if pj.Spec.DecorationConfig != nil && plank.JobURLPrefix != "" {
 		spec := downwardapi.NewJobSpec(pj.Spec, pj.Status.BuildID, pj.Name)
 		gcsConfig := pj.Spec.DecorationConfig.GCSConfiguration
-		_, gcsPath, _ := gcsupload.PathsForJob(gcsConfig, &spec, "")
+		_, gcsPath, _ := osupload.PathsForJob(gcsConfig, &spec, "")
 
 		prefix, _ := url.Parse(plank.JobURLPrefix)
 		prefix.Path = path.Join(prefix.Path, gcsConfig.Bucket, gcsPath)

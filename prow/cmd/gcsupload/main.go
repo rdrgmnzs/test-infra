@@ -14,22 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// gcsupload uploads the files and folders specified
-// to GCS using the Prow-defined job configuration
+// osupload uploads the files and folders specified to
+// object storage using the Prow-defined job configuration
 package main
 
 import (
 	"github.com/sirupsen/logrus"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 	"k8s.io/test-infra/prow/pod-utils/options"
 
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/logrusutil"
-	"k8s.io/test-infra/prow/pod-utils/gcs"
 )
 
 func main() {
-	o := gcsupload.NewOptions()
+	o := osupload.NewOptions()
 	if err := options.Load(o); err != nil {
 		logrus.Fatalf("Could not resolve options: %v", err)
 	}
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	logrus.SetFormatter(
-		logrusutil.NewDefaultFieldsFormatter(nil, logrus.Fields{"component": "gcsupload"}),
+		logrusutil.NewDefaultFieldsFormatter(nil, logrus.Fields{"component": "osupload"}),
 	)
 
 	spec, err := downwardapi.ResolveSpecFromEnv()
@@ -47,7 +47,7 @@ func main() {
 		logrus.WithError(err).Fatal("Could not resolve job spec")
 	}
 
-	if err := o.Run(spec, map[string]gcs.UploadFunc{}); err != nil {
-		logrus.WithError(err).Fatal("Failed to upload to GCS")
+	if err := o.Run(spec, map[string]objectstorage.UploadFunc{}); err != nil {
+		logrus.WithError(err).Fatal("Failed to upload to object storage")
 	}
 }

@@ -22,10 +22,10 @@ as JSON in the `$GCSUPLOAD_OPTIONS` environment variable, which has the followin
 
 In addition to this configuration for the tool, the `$JOB_SPEC` environment variable should be
 present to provide the contents of the Prow downward API for jobs. This data is used to resolve
-the exact location in GCS to which artifacts and logs will be pushed.
+the exact location in object storage to which artifacts and logs will be pushed.
 
 The path strategy field can be one of `"legacy"`, `"single"`, and `"explicit"`. This field
-determines how the organization and repository of the code under test is encoded into the GCS path
+determines how the organization and repository of the code under test is encoded into the object storage path
 for the test artifacts:
 
 | Strategy     | Encoding                                                                                                                   |

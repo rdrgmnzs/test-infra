@@ -54,7 +54,7 @@ type GithubClientGetter interface {
 
 type OAuthClient interface {
 	// Exchanges code from github oauth redirect for user access token.
-	Exchange(ctx context.Context, code string) (*oauth2.Token, error)
+	Exchange(ctx context.Context, code string, opts ...oauth2.AuthCodeOption) (*oauth2.Token, error)
 	// Returns a URL to OAuth 2.0 github's consent page. The state is a token to protect user from
 	// XSRF attack.
 	AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string

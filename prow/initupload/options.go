@@ -20,7 +20,7 @@ import (
 	"encoding/json"
 	"flag"
 
-	"k8s.io/test-infra/prow/gcsupload"
+	"k8s.io/test-infra/prow/osupload"
 )
 
 const (
@@ -33,12 +33,12 @@ const (
 // NewOptions returns an empty Options with no nil fields
 func NewOptions() *Options {
 	return &Options{
-		Options: gcsupload.NewOptions(),
+		Options: osupload.NewOptions(),
 	}
 }
 
 type Options struct {
-	*gcsupload.Options
+	*osupload.Options
 
 	// Log is the log file to which clone records are written.
 	// If unspecified, no clone records are uploaded.

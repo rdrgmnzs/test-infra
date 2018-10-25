@@ -34,7 +34,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
 
-	"k8s.io/test-infra/prow/pod-utils/gcs"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 )
 
 // Run will watch for the process being wrapped to exit
@@ -125,8 +125,8 @@ func (o Options) Run() error {
 }
 
 func (o Options) doUpload(spec *downwardapi.JobSpec, passed, aborted bool) error {
-	uploadTargets := map[string]gcs.UploadFunc{
-		"build-log.txt": gcs.FileUpload(o.WrapperOptions.ProcessLog),
+	uploadTargets := map[string]objectstorage.UploadFunc{
+		"build-log.txt": objectstorage.FileUpload(o.WrapperOptions.ProcessLog),
 	}
 	var result string
 	switch {
@@ -151,7 +151,7 @@ func (o Options) doUpload(spec *downwardapi.JobSpec, passed, aborted bool) error
 	if err != nil {
 		logrus.WithError(err).Warn("Could not marshal finishing data")
 	} else {
-		uploadTargets["finished.json"] = gcs.DataUpload(bytes.NewBuffer(finishedData))
+		uploadTargets["finished.json"] = objectstorage.DataUpload(bytes.NewBuffer(finishedData))
 	}
 
 	if err := o.GcsOptions.Run(spec, uploadTargets); err != nil {

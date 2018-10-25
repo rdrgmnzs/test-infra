@@ -28,7 +28,7 @@ import (
 	"strings"
 	"time"
 
-	"k8s.io/test-infra/testgrid/util/gcs"
+	"k8s.io/test-infra/testgrid/util/objectstorage"
 
 	"cloud.google.com/go/storage"
 )
@@ -141,11 +141,11 @@ func write(ctx context.Context, client *storage.Client, path string, bytes []byt
 	if u.Scheme != "gs" {
 		return ioutil.WriteFile(path, bytes, 0644)
 	}
-	var p gcs.Path
+	var p objectstorage.Path
 	if err = p.SetURL(u); err != nil {
 		return err
 	}
-	return gcs.Upload(ctx, client, p, bytes)
+	return objectstorage.Upload(ctx, client, p, bytes)
 }
 
 func doOneshot(ctx context.Context, client *storage.Client, opt options) error {
@@ -194,7 +194,7 @@ func main() {
 	}
 
 	// Setup GCS client
-	client, err := gcs.ClientWithCreds(ctx, opt.creds)
+	client, err := objectstorage.ClientWithCreds(ctx, opt.creds)
 	if err != nil {
 		log.Fatalf("Failed to create storage client: %v", err)
 	}

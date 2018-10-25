@@ -20,14 +20,14 @@ import (
 	"encoding/json"
 	"flag"
 
-	"k8s.io/test-infra/prow/gcsupload"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pod-utils/wrapper"
 )
 
 // NewOptions returns an empty Options with no nil fields
 func NewOptions() *Options {
 	return &Options{
-		GcsOptions:     gcsupload.NewOptions(),
+		GcsOptions:     osupload.NewOptions(),
 		WrapperOptions: &wrapper.Options{},
 	}
 }
@@ -36,8 +36,8 @@ func NewOptions() *Options {
 // for defining the process being watched and
 // where in GCS an upload will land.
 type Options struct {
-	GcsOptions     *gcsupload.Options `json:"gcs_options"`
-	WrapperOptions *wrapper.Options   `json:"wrapper_options"`
+	GcsOptions     *osupload.Options `json:"gcs_options"`
+	WrapperOptions *wrapper.Options  `json:"wrapper_options"`
 }
 
 // Validate ensures that the set of options are

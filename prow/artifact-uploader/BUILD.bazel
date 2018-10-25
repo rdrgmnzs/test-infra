@@ -6,10 +6,10 @@ go_library(
     importpath = "k8s.io/test-infra/prow/artifact-uploader",
     visibility = ["//visibility:public"],
     deps = [
-        "//prow/gcsupload:go_default_library",
         "//prow/kube:go_default_library",
+        "//prow/osupload:go_default_library",
         "//prow/pod-utils/downwardapi:go_default_library",
-        "//prow/pod-utils/gcs:go_default_library",
+        "//prow/pod-utils/objectstorage:go_default_library",
         "//vendor/github.com/golang/glog:go_default_library",
         "//vendor/k8s.io/api/core/v1:go_default_library",
         "//vendor/k8s.io/apimachinery/pkg/apis/meta/v1:go_default_library",

@@ -33,10 +33,10 @@ import (
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/workqueue"
 
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/kube"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
-	"k8s.io/test-infra/prow/pod-utils/gcs"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 )
 
 const (
@@ -53,7 +53,7 @@ type item struct {
 	prowJobId     string
 }
 
-func NewController(client core.CoreV1Interface, prowJobClient *kube.Client, gcsConfig *gcsupload.Options) Controller {
+func NewController(client core.CoreV1Interface, prowJobClient *kube.Client, gcsConfig *osupload.Options) Controller {
 	queue := workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter())
 	optionsModifier := func(options *metav1.ListOptions) {
 		req, _ := labels.NewRequirement(kube.ProwJobIDLabel, selection.Exists, []string{})
@@ -118,7 +118,7 @@ type Controller struct {
 	client        core.CoreV1Interface
 	prowJobClient *kube.Client
 
-	gcsConfig *gcsupload.Options
+	gcsConfig *osupload.Options
 }
 
 func (c *Controller) Run(numWorkers int, stopCh chan struct{}) {
@@ -174,8 +174,8 @@ func (c *Controller) processNextItem() bool {
 	} else {
 		target = path.Join(ContainerLogDir, workItem.podName, fmt.Sprintf("%s.txt", workItem.containerName))
 	}
-	data := gcs.DataUpload(bytes.NewReader(log))
-	if err := c.gcsConfig.Run(&spec, map[string]gcs.UploadFunc{target: data}); err != nil {
+	data := objectstorage.DataUpload(bytes.NewReader(log))
+	if err := c.gcsConfig.Run(&spec, map[string]objectstorage.UploadFunc{target: data}); err != nil {
 		c.handleErr(err, workItem)
 		return true
 	}

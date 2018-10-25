@@ -31,9 +31,9 @@ import (
 
 	"k8s.io/test-infra/prow/clonerefs"
 	"k8s.io/test-infra/prow/entrypoint"
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/initupload"
 	"k8s.io/test-infra/prow/kube"
+	"k8s.io/test-infra/prow/osupload"
 	"k8s.io/test-infra/prow/pod-utils/clone"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
 	"k8s.io/test-infra/prow/pod-utils/wrapper"
@@ -312,7 +312,7 @@ func decorate(spec *kube.PodSpec, pj *kube.ProwJob, rawEnv map[string]string) er
 			VolumeMounts: append([]kube.VolumeMount{logMount, codeMount}, cloneMounts...),
 		})
 	}
-	gcsOptions := gcsupload.Options{
+	gcsOptions := osupload.Options{
 		// TODO: pass the artifact dir here too once we figure that out
 		GCSConfiguration:   pj.Spec.DecorationConfig.GCSConfiguration,
 		GcsCredentialsFile: fmt.Sprintf("%s/service-account.json", gcsCredentialsMountPath),

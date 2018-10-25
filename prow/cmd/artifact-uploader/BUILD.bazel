@@ -7,9 +7,9 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//prow/artifact-uploader:go_default_library",
-        "//prow/gcsupload:go_default_library",
         "//prow/kube:go_default_library",
         "//prow/logrusutil:go_default_library",
+        "//prow/osupload:go_default_library",
         "//prow/pod-utils/options:go_default_library",
         "//vendor/github.com/sirupsen/logrus:go_default_library",
         "//vendor/k8s.io/client-go/kubernetes:go_default_library",

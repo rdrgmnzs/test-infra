@@ -20,8 +20,8 @@
     "pubsub/internal/distribution",
     "storage",
   ]
-  revision = "0fd7230b2a7505833d5f69b75cbd6c9582401479"
-  version = "v0.23.0"
+  revision = "c728a003b238b26cef9ab6753a5dc424b331c3ad"
+  version = "v0.27.0"
 
 [[projects]]
   name = "github.com/Azure/azure-pipeline-go"
@@ -139,6 +139,8 @@
     "service/iam",
     "service/route53",
     "service/s3",
+    "service/s3/s3iface",
+    "service/s3/s3manager",
     "service/sts",
   ]
   revision = "82ad808f2307df0776c038bfd7ea85440a35c02e"
@@ -440,12 +442,24 @@
     "ptypes/empty",
     "ptypes/timestamp",
   ]
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
 
 [[projects]]
   name = "github.com/google/btree"
   packages = ["."]
   revision = "cc6329d4279e3f025a53a83c397d2339b5705c45"
+
+[[projects]]
+  name = "github.com/google/go-cloud"
+  packages = [
+    "blob",
+    "blob/driver",
+    "blob/gcsblob",
+    "blob/s3blob",
+    "gcp",
+    "wire",
+  ]
+  revision = "ced5470eaaa921f202d38450efb37e374d448a1f"
 
 [[projects]]
   name = "github.com/google/go-github"
@@ -787,6 +801,8 @@
     "internal",
     "internal/tagencoding",
     "plugin/ocgrpc",
+    "plugin/ochttp",
+    "plugin/ochttp/propagation/b3",
     "stats",
     "stats/internal",
     "stats/view",
@@ -843,7 +859,7 @@
     "jws",
     "jwt",
   ]
-  revision = "a032972e28060ca4f5644acffae3dfc268cc09db"
+  revision = "9dcd33a902f40452422c2367fefcb95b54f9f8f8"
 
 [[projects]]
   branch = "master"
@@ -919,8 +935,9 @@
     "transport",
     "transport/grpc",
     "transport/http",
+    "transport/http/internal/propagation",
   ]
-  revision = "ffa5046912fde3e38fd41244f9593c99431ecfa2"
+  revision = "39567f0042a03aeb2691599961ed4454e43d5063"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -952,7 +969,7 @@
     "googleapis/rpc/status",
     "protobuf/field_mask",
   ]
-  revision = "4eb30f4778eed4c258ba66527a0d4f9ec8a36c45"
+  revision = "94acd270e44e65579b9ee3cdab25034d33fed608"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -1245,6 +1262,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "eefbf884c1382c898e4a35f755c0c4fcd0714927553683bc58c04a088018c017"
+  inputs-digest = "ab899cd5fb6da8e2429cc06a4635e1ed96598768a6c83a53c5894dfd98a797d3"
   solver-name = "gps-cdcl"
   solver-version = 1

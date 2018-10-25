@@ -19,8 +19,8 @@ package initupload
 import (
 	"testing"
 
-	"k8s.io/test-infra/prow/gcsupload"
 	"k8s.io/test-infra/prow/kube"
+	"k8s.io/test-infra/prow/osupload"
 )
 
 func TestOptions_Validate(t *testing.T) {
@@ -33,7 +33,7 @@ func TestOptions_Validate(t *testing.T) {
 			name: "minimal set ok",
 			input: Options{
 				Log: "testing",
-				Options: &gcsupload.Options{
+				Options: &osupload.Options{
 					DryRun: true,
 					GCSConfiguration: &kube.GCSConfiguration{
 						PathStrategy: kube.PathStrategyExplicit,
@@ -45,7 +45,7 @@ func TestOptions_Validate(t *testing.T) {
 		{
 			name: "missing clone log",
 			input: Options{
-				Options: &gcsupload.Options{
+				Options: &osupload.Options{
 					DryRun: true,
 					GCSConfiguration: &kube.GCSConfiguration{
 						PathStrategy: kube.PathStrategyExplicit,
@@ -57,7 +57,7 @@ func TestOptions_Validate(t *testing.T) {
 		{
 			name: "missing path strategy",
 			input: Options{
-				Options: &gcsupload.Options{
+				Options: &osupload.Options{
 					DryRun:           true,
 					GCSConfiguration: &kube.GCSConfiguration{},
 				},

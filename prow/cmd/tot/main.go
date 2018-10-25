@@ -37,7 +37,7 @@ import (
 	"k8s.io/test-infra/prow/logrusutil"
 	"k8s.io/test-infra/prow/pjutil"
 	"k8s.io/test-infra/prow/pod-utils/downwardapi"
-	"k8s.io/test-infra/prow/pod-utils/gcs"
+	"k8s.io/test-infra/prow/pod-utils/objectstorage"
 )
 
 type options struct {
@@ -260,7 +260,7 @@ func (f fallbackHandler) getURL(jobName string) string {
 		logrus.Errorf("requested job is unknown to prow: %s", jobName)
 		return ""
 	}
-	paths := gcs.LatestBuildForSpec(spec, nil)
+	paths := objectstorage.LatestBuildForSpec(spec, nil)
 	if len(paths) != 1 {
 		logrus.Errorf("expected a single GCS path, got %v", paths)
 		return ""
