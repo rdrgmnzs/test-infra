@@ -50,7 +50,6 @@ approve:
   - kubernetes/heapster
   - kubernetes/ingress-gce
   - kubernetes/ingress-nginx
-  - kubernetes/kops
   - kubernetes/kube-deploy
   - kubernetes/kubeadm
   - kubernetes/kubectl
@@ -70,6 +69,7 @@ approve:
   implicit_self_approve: true
   lgtm_acts_as_approve: true
 - repos:
+  - kubernetes/kops
   - kubernetes/kubernetes
   - kubernetes-client
   - kubernetes-csi
